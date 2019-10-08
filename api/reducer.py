@@ -10,16 +10,18 @@ class OptionReducer:
     def eligible_thermometers(self):
         # cacheable
         return [
-            result.enabled_for_country(self.city, self.country) for result in
-            Thermometer.objects.filter(is_active=True)
+            result for result in
+            Thermometer.objects.filter(is_enabled=True)
+            if result.enabled_for_country(self.city, self.country)
         ]
 
     def get_temperatures(self):
         # cacheable
         # List of Temperature objects
         return [
-            result.get_temperature(self.city, self.country) for result in
+            result for result in
             self.eligible_thermometers()
+            if result.get_temperature(self.city, self.country)
         ]
 
     def highest_temp(self):

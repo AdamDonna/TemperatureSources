@@ -21,5 +21,5 @@ from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('snippets/', views.ReducedTemperatures.as_view()),
+    path('temperatures/', views.ReducedTemperatures.as_view()),
 ]

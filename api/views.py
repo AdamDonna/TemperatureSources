@@ -6,5 +6,12 @@ from .reducer import OptionReducer
 
 class ReducedTemperatures(APIView):
     def get(self, request, format=None):
-        print(OptionReducer("Aspendale", "AU").eligible_thermometers())
-        return Response({}, status=status.HTTP_200_OK)
+        reducer = OptionReducer("Aspendale", "AU")
+        highest = reducer.highest_temp()
+        lowest = reducer.lowest_temp()
+        return Response({
+            "lowest": lowest.get_min_temp(),
+            "lowest_source": lowest.source,
+            "highest": highest.get_max_temp(),
+            "highest_source": lowest.source
+        }, status=status.HTTP_200_OK)

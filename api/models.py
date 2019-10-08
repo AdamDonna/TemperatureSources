@@ -10,7 +10,7 @@ class Thermometer(PolymorphicModel):
     base_url = models.TextField(max_length=255)
     is_enabled = models.BooleanField(default=False)
     is_celcius = models.BooleanField(default=True)
-    api_key = models.TextField(default="", max_length=255)
+    api_key = models.TextField(default="", max_length=255, blank=True)
 
     def get_temperature(self, location, country) -> Temperature:
         response = requests.get(self.base_url, params=self.get_params(location, country))
@@ -45,6 +45,13 @@ class OpenWeatherMap(Thermometer):
                    "min_temp": main.get("temp_min"),
                    "humidity": main.get("humidity"),
         }
+
+    def get_params(self, location, country):
+        params = {
+            "location": location,
+            "appid": self.api_key,
+        }
+        return params
 
 
 class WeatherBit(Thermometer):
